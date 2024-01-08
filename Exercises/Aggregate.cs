@@ -81,24 +81,15 @@ namespace Exercises
                 return new[] { 0 };
             }
 
-            // create initial list
-            var list = new List<int> { 0, 1 };
-            // set initial count
-            int count = 1;
-            // aggregate over each element in the list
-            var result = list.Aggregate((last, current) =>
-            {
-                if (count < n - 1)
-                {
-                    // count has not reached n, add value to list and increate count
-                    list.Add(last + current);
-                    count++;
-                }
-                // current becomes last in next iteration
-                return current;
-            });
+            // create initial list, represents count
+            var list = Enumerable.Range(1, n - 2);
 
-            return list;
+            // aggregate over list (acts as index i from for loop)
+            var result = list.Aggregate(new List<int> { 0, 1 }, (sequence, current) =>
+            sequence.Append(sequence[current - 1] + sequence[current]).ToList()
+            );
+
+            return result;
         }
 
         //do not modify this method
