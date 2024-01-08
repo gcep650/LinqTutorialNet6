@@ -21,8 +21,15 @@ namespace Exercises
         public static TimeSpan TotalActivityDuration(
             IEnumerable<int> activityTimesInSeconds)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // aggregate over activityTimesInSeconds
+            // parameters are initial empty timespan and current time
+            // each iteration adds current time to the total time timespan
+            // returns the total time
+            var totalTime = activityTimesInSeconds.Aggregate(new TimeSpan(), (totalSoFar, time) =>
+            totalSoFar.Add(TimeSpan.FromSeconds(time))
+            );
+
+            return totalTime;
         }
 
         //Coding Exercise 2
@@ -40,16 +47,58 @@ namespace Exercises
          */
         public static string PrintAlphabet(int count)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // throw argumentexception if count is not between 1-26 inclusive
+            if (count < 1 || count > 26)
+            {
+                throw new ArgumentException("Count must be between 1 to 26 inclusive.");
+            }
+
+            // create alphabet string array
+            string[] alphabet = new string[] {"a","b","c","d","e","f","g",
+                "h","i","j","k","l","m","n","o","p",
+                "q","r","s","t","u","v","w","x","y","z" };
+
+            // use take to only aggregate over specified count
+            // use aggregate to combine letters with separator into final string
+            var output = alphabet.Take(count)
+                .Aggregate((total, letter) => total + "," + letter);
+
+            return output;
         }
 
         //Refactoring challenge
         //TODO implement this method
         public static IEnumerable<int> Fibonacci_Refactored(int n)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // throw exception if count is less than one
+            if (n < 1)
+            {
+                throw new ArgumentException("n must be greater than 1.");
+            }
+            else if (n == 1)
+            {
+                // return 0 if count is only 1
+                return new[] { 0 };
+            }
+
+            // create initial list
+            var list = new List<int> { 0, 1 };
+            // set initial count
+            int count = 1;
+            // aggregate over each element in the list
+            var result = list.Aggregate((last, current) =>
+            {
+                if (count < n - 1)
+                {
+                    // count has not reached n, add value to list and increate count
+                    list.Add(last + current);
+                    count++;
+                }
+                // current becomes last in next iteration
+                return current;
+            });
+
+            return list;
         }
 
         //do not modify this method
