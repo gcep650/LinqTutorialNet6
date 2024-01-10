@@ -11,8 +11,8 @@ namespace Exercises
         //if any number in the collection is smaller than 0.
         public static bool IsAnyNumberNegative(IEnumerable<int> numbers)
         {
-            //TODO you code goes here
-            throw new NotImplementedException();
+            // check if any number is less than 0
+            return numbers.Any(n => n < 0);
         }
 
         //Coding Exercise 2
@@ -20,16 +20,18 @@ namespace Exercises
         //if in the collection of Pets there is a cat that weighs over 2 kilos.
         public static bool AreThereAnyBigCats(IEnumerable<Pet> pets)
         {
-            //TODO you code goes here
-            throw new NotImplementedException();
+            // check if any pet has Weight over 2 and type is cat
+            return pets.Any(pet => pet.Weight > 2.0f && pet.PetType == PetType.Cat);
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static bool AreAllNamesValid_Refactored(string[] names)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // conditions
+            // first character is not lowercase
+            // name is greater than 2 characters
+            // name is less than 25 characters
+            return !names.Any(name => char.IsLower(name[0]) || name.Length < 2 || name.Length > 25);
         }
 
         //do not modify this method

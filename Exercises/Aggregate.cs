@@ -67,7 +67,6 @@ namespace Exercises
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static IEnumerable<int> Fibonacci_Refactored(int n)
         {
             // throw exception if count is less than one

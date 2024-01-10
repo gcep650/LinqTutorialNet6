@@ -26,8 +26,13 @@ namespace Exercises
         public static Dictionary<string, int?> ParseToNumbersAndStoreInDictionary(
             IEnumerable<string> words)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // convert first to hash set to remove duplicates, then convert to dictionary
+            return words.ToHashSet().ToDictionary(word => word, word =>
+            {
+                // use tryparse to get int. if parse fails, return null
+                int num;
+                return int.TryParse(word, out num) ? (int?)num : null;
+            });
         }
 
         //Coding Exercise 2
@@ -45,18 +50,25 @@ namespace Exercises
         public static ILookup<bool, int> CreateLookupByDivisibilityBy2(
             IEnumerable<int> input)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            return input.ToLookup(num => num % 2 == 0, num => num);
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static Dictionary<string, double>
              GetStudentsAverageMarks_Refactored(
                  IEnumerable<Student> students)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // new dictionary
+            // create studentdata for each student (key)
+            // get average of student marks (value)
+            // if marks is empty, average should be 0
+
+            return students.ToDictionary(
+                student => $"{student.FirstName} " +
+                $"{student.LastName} born on" +
+                $" {student.DateOfBirth.ToString("d")}",
+                student => student.Marks.Any() ? student.Marks.Average() : 0
+                );
         }
 
         //do not modify this method
