@@ -30,8 +30,8 @@ namespace Exercises
         public static bool IsAppointmentDateAvailable(
             DateTime date, IEnumerable<DateTime> existingAppointmentDates)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // return true if the existing dates collection does not contain date
+            return !existingAppointmentDates.Contains(date);
         }
 
         //Coding Exercise 2
@@ -54,8 +54,9 @@ namespace Exercises
          */
         public static int CountFriendsOf(Friend friend, IEnumerable<Person> people)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // check if person contains friend
+            // count how many people have that friend
+            return people.Count(person => person.Friends.Contains(friend));
         }
 
         //Refactoring challenge
@@ -63,8 +64,8 @@ namespace Exercises
         public static bool ContainsBannedWords_Refactored(
             IEnumerable<string> words, IEnumerable<string> bannedWords)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // return true if words contains any word from bannedWords
+            return words.Any(word => bannedWords.Contains(word));
         }
 
         //do not modify this method
