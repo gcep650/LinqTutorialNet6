@@ -18,8 +18,8 @@ namespace Exercises
          */
         public static bool AreAllUnique<T>(IEnumerable<T> collection)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // check if distinct collection has same count as unmodified collection
+            return collection.Count() == collection.Distinct().Count();
         }
 
         //Coding Exercise 2
@@ -44,17 +44,41 @@ namespace Exercises
         public static IEnumerable<T> GetCollectionWithMostDuplicates<T>(
             IEnumerable<IEnumerable<T>> collections)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // return null if collections is empty
+            if (collections == null || collections.Count() < 1)
+            {
+                return null;
+            }
+            // return shortest collection with the most duplicates
+
+            // get starting values (first collection)
+            var retCollection = collections.First();
+            // calculate duplicates
+            int retDupCount = retCollection.Count() - retCollection.Distinct().Count();
+
+            foreach (var collection in collections)
+            {
+                // calculate duplicates for current collection
+                int currentDupCount = collection.Count() - collection.Distinct().Count();
+
+                // current collection becomes return value if duplicate count is greater
+                // or current duplicate count is the same as retDupCount and the collection is smaller
+                if (currentDupCount > retDupCount ||
+                    currentDupCount == retDupCount && collection.Count() < retCollection.Count())
+                {
+                    retCollection = collection;
+                    retDupCount = currentDupCount;
+                }
+            }
+
+            return retCollection;
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static IEnumerable<string> GetWordsShorterThan5Letters_Refactored(
             IEnumerable<string> words)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            return words.Distinct().Where(word => word.Length < 5);
         }
 
         //do not modify this method

@@ -29,8 +29,16 @@ namespace Exercises
          */
         public static char? GetTheMostFrequentCharacter(string text)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            if (text == null || text == string.Empty)
+            {
+                return null;
+            }
+
+            var lowerText = text.ToLower();
+
+            // group by letter, then order by the count descending, then get the first letter
+            return lowerText.GroupBy(
+                letter => letter).OrderByDescending(group => group.Count()).First().Key;
         }
 
         //Coding Exercise 2
@@ -53,16 +61,37 @@ namespace Exercises
          */
         public static PetType? FindTheHeaviestPetType(IEnumerable<Pet> pets)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            if (pets == null || pets.Count() < 1)
+            {
+                return null;
+            }
+
+            // group pets by type and weight, create dictionary to get average weight by pet type
+            // order by heaviest pet weight
+            // get heaviest and return the pet type
+            return pets.GroupBy(
+                pets => pets.PetType,
+                pets => pets.Weight)
+                .ToDictionary(
+                group => group.Key,
+                group => group.Average())
+                .OrderByDescending(group => group.Value)
+                .First().Key;
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static IEnumerable<string> CountPets_Refactored(string petsData)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // return empty string if petsData is null or empty
+            if (string.IsNullOrEmpty(petsData))
+            {
+                return new string[0];
+            }
+
+            // split petsData by comma
+            // create dictionary where key is pet and value is the count
+            // return list of strings that prints pet type and count
+            return petsData.Split(',').GroupBy(pet => pet).Select(group => $"{group.Key}:{group.Count()}");
         }
 
         //do not modify this method

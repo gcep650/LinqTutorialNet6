@@ -28,8 +28,11 @@ namespace Exercises
         public static Dictionary<int, string> NewYearsEvesSince(
             int initialYear, int yearsCount)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // create range starting with initialYear and ending with initialYear + yearsCount
+            var years = Enumerable.Range(initialYear, yearsCount);
+
+            // create dictionary where year is key and value is day of week
+            return years.ToDictionary(year => year, year => new DateTime(year, 12, 31).DayOfWeek.ToString());
         }
 
         //Coding Exercise 2
@@ -53,16 +56,32 @@ namespace Exercises
          */
         public static string BuildTree(int levels)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            return Enumerable.Range(1, levels)
+                .Aggregate(string.Empty, (tree, level) =>
+                {
+                    if (level > 1)
+                    {
+                        tree += Environment.NewLine;
+                    }
+                    string s = new string(Enumerable.Repeat('*', level).ToArray());
+                    return tree + s;
+                });
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static IEnumerable<string> DoubleLetters_Refactored(int countOfLetters)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // count can only be 26 or less
+            const int countOfLettersInEngAlphabet = 26;
+            var finalCount = Math.Min(countOfLetters, countOfLettersInEngAlphabet);
+
+            // create list of letters using enumerable range
+            var letters = Enumerable.Range('A', finalCount).Select(num => (char)num);
+
+            // change to list of strings in which each string is a possible combination of two letters
+            var result = letters.Select(letter => letters.Select(letter2 => $"{letter}{letter2}")).SelectMany(list => list);
+
+            return result;
         }
 
         //do not modify this method
