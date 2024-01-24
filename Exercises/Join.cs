@@ -38,8 +38,17 @@ namespace Exercises
              IEnumerable<Person> people,
              IEnumerable<House> houses)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // perform left outer join to get list of all people regardless if they own a house
+            // groupjoin joins the list of people with houses with matching owner id
+            // selectmany returns list containing matches of person with house
+            // select formats the data into a list of strings that describes the person and the house
+
+            return people.GroupJoin(houses, person => person.Id, house => house.OwnerId,
+                (person, house) => new { Person = person, Houses = house })
+                .SelectMany(x => x.Houses.DefaultIfEmpty(), (person, house) => new {Person = person.Person, House = house})
+                .Select(data => data.House != null ? $"Person: (Id:{data.Person.Id}), {data.Person.Name} owns {data.House.Address}"
+            : $"Person: (Id:{data.Person.Id}), {data.Person.Name} owns no house");
+
         }
 
         //Coding Exercise 2
@@ -86,18 +95,23 @@ namespace Exercises
             IEnumerable<Item> items,
             IEnumerable<Order> orders)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // first join connects customers to orders and creates anonymous type
+            // second join connects customer order to item and transforms data into a list of strings
+            return customers.Join(orders, customer => customer.Id, order => order.CustomerId,
+                (customer, order) => new { Customer = customer, Order = order })
+                .Join(items, order => order.Order.ItemId, item => item.Id,
+                (order, item) => $"Customer: {order.Customer.Name}, Item: {item.Name}, Count: {order.Order.Count}");
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static Dictionary<House, Person> GetHousesData_Refactored(
             IEnumerable<Person> people,
             IEnumerable<House> houses)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            return people.GroupJoin(houses, person => person.Id, house => house.OwnerId,
+                (person, houses) => new { Person = person, Houses = houses })
+                .SelectMany(data => data.Houses, (person, house) => new { Person = person.Person, House = house })
+                .ToDictionary(data => data.House, data => data.Person);
         }
 
         //do not modify this method

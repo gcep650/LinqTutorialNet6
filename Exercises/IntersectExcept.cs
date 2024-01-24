@@ -24,8 +24,7 @@ namespace Exercises
             IEnumerable<string> words1,
             IEnumerable<string> words2)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            return words1.Select(w => w.ToUpper()).Intersect(words2.Select(w => w.ToUpper())).Count();
         }
 
         //Coding Exercise 2
@@ -45,18 +44,46 @@ namespace Exercises
             IEnumerable<int> numbers1,
             IEnumerable<int> numbers2)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            return numbers1.Except(numbers2).Concat(numbers2.Except(numbers1)).OrderBy(n => n);
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static IEnumerable<string>
             GetRoutesInfo_Refactored(
                 Route route1, Route route2)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // iterate each point in route 1
+            // iterate each point in route 2
+
+            // if routepoint 1 equals routepoint 2
+            // and routepoint 2 is not already added to shared points
+            //     add route point 1
+
+            // get all points from route 1 that are not contained in shared points
+            // get all points from route 2 that are not contained in shared points
+
+            var result = new List<string>();
+
+            var sharedPoints = route1.RoutePoints.Intersect(route2.RoutePoints);
+            var route1Unshared = route1.RoutePoints.Except(sharedPoints);
+            var route2Unshared = route2.RoutePoints.Except(sharedPoints);
+
+            foreach (RoutePoint p in sharedPoints)
+            {
+                result.Add("Shared point " +
+                    $"{p.Name}" +
+                    $" at {p.Point}");
+            }
+
+            foreach (RoutePoint p in route1Unshared.Concat(route2Unshared))
+            {
+                result.Add("Unshared point " +
+                    $"{p.Name}" +
+                    $" at {p.Point}");
+            }
+
+            return result;
+
         }
 
         //do not modify this method

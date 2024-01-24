@@ -25,8 +25,27 @@ namespace Exercises
          */
         public static IEnumerable<int> GetNumbers(IEnumerable<object> objects)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // get list of all ints in the collection
+            var ints = objects.OfType<int>();
+            // get list of all strings in the collection
+            var strings = objects.OfType<string>();
+
+            // parse each string into int or return null
+            // remove all null ints (strings that were not numbers)
+            // cast as int without nulls
+            var parsedStrings = strings.Select(str =>
+            {
+                int parsed;
+                if (int.TryParse(str, out parsed))
+                {
+                    return parsed;
+                }
+                return (int?)null;
+            }).Where(n => n != null).Cast<int>();
+
+            // concat int and parsed strings and order by ascending
+            return ints.Concat(parsedStrings).OrderBy(n => n);
+            
         }
 
         //Coding Exercise 2
@@ -53,16 +72,41 @@ namespace Exercises
          */
         public static IEnumerable<Person> PeopleFromString(string input)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            // split input string by ; to get list of person entries
+            // split each entry by comma to get name and date of birth
+            // parse date of birth, if fails, return null instead of new Person object
+
+            return input.Split(';').Select(person =>
+            {
+                var data = person.Split(',');
+                var name = data[0].Split(' ');
+                DateTime dob;
+                if (!DateTime.TryParse(data[1], out dob))
+                {
+                    return null;
+                }
+
+                var current = new Person();
+                current.FirstName = name[0];
+                current.LastName = name[1];
+                current.DateOfBirth = dob;
+
+                return current;
+            }).Where(p => p != null);
         }
 
         //Refactoring challenge
-        //TODO implement this method
         public static TimeSpan TotalDurationOfSongs_Refactored(string allSongsDuration)
         {
-            //TODO your code goes here
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(allSongsDuration))
+            {
+                return new TimeSpan();
+            }
+
+            return allSongsDuration.Split(',').Select(
+                duration => TimeSpan.ParseExact(
+                    duration, @"m\:ss", null))
+                .Aggregate(new TimeSpan(), (total, current) => total += current);
         }
 
         //do not modify this method

@@ -95,5 +95,18 @@ namespace ExercisesTests
             var message = $"The test failed, because the owners list is empty, and the result should be 0, but it was {result}.";
             Assert.AreEqual(0, result, message);
         }
+
+        [Test]
+        public void EmptyCollection_Refactored()
+        {
+
+            var owners = new List<Person>
+            {
+            };
+
+            var result = MinMax.CountOfDogsOfTheOwnerWithMostDogs_Refactored(owners);
+            var message = $"The test failed, because the owners list is empty, and the result should be 0, but it was {result}.";
+            Assert.AreEqual(0, result, message);
+        }
     }
 }
